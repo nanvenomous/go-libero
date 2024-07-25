@@ -3,13 +3,16 @@
 
 `go-libero` is a simple API-key based guard to any API 
 
-this package works with any proxy provider that supports [forward_auth](https://docs.goauthentik.io/docs/providers/proxy/forward_auth)
-
+## Motivation
+- safe against [timing attacks](https://en.wikipedia.org/wiki/Timing_attack) using `crypto/subtle` from go standard library
+- works with any proxy provider that supports [forward_auth](https://docs.goauthentik.io/docs/providers/proxy/forward_auth)
 
 ## Usage
 
 build and serve libero
 ```bash
+git clone https://github.com/nanvenomous/go-libero.git && cd go-libero
+
 go build ./...
 LIBERO_API_KEY='your-api-key' ./libero
 ```
@@ -20,6 +23,7 @@ however you still need to guard your resource server within the reverse proxy (t
 
 assuming you have a resource server running locally on port `4005`
 
+so in your `Caddyfile`:
 ```Caddyfile
 my-domain.com {
   forward_auth :4444 {
