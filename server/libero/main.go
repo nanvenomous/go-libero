@@ -13,14 +13,14 @@ func main() {
 }
 
 func checkAPIKey(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("CHECKING AUTH")
+	var authd bool = true
 	apiKey := r.Header.Get("Key")
 	expectedAPIKey := os.Getenv("LIBERO_API_KEY")
-	fmt.Println(apiKey)
-	// expectedAPIKey := "hello"
 	if subtle.ConstantTimeCompare([]byte(apiKey), []byte(expectedAPIKey)) != 1 {
 		http.Error(w, "Invalid API key", http.StatusUnauthorized)
+		authd = false
 		return
 	}
+	fmt.Println("FROM", r.Header.Get("X-Forwarded-For"), "AUTHORIZED", authd)
 	w.WriteHeader(http.StatusOK)
 }
