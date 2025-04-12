@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+  default:
+    desc: 'build the libero binary'
+    cmds:
+      - 'go build ./...'
+  serve:
+    desc: 'serve the webserver'
+    deps: [default]
+    cmds:
+      - './libero'
