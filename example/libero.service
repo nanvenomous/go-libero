@@ -1,0 +1,18 @@
+[Unit]
+Description=the Libero API guard
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+# Restart=always
+RestartSec=1
+User=user
+WorkingDirectory=/home/user
+Environment="LIBERO_API_KEY=example_api_key"
+ExecStart=/home/user/projects/go-libero/libero
+StandardOutput=append:/home/user/logs/libero.log
+StandardError=append:/home/user/logs/libero.log
+
+[Install]
+WantedBy=multi-user.target
