@@ -15,12 +15,10 @@ func main() {
 
 func checkAPIKey(w http.ResponseWriter, r *http.Request) {
 	var authd bool = true
-	// apiKey := r.Header.Get("Key")
 	apiKey := strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer ")
-	// fmt.Println(r.Header)
 	expectedAPIKey := os.Getenv("LIBERO_API_KEY")
 	if subtle.ConstantTimeCompare([]byte(apiKey), []byte(expectedAPIKey)) != 1 {
-		http.Error(w, "Invalid API key. Set the `Key` header to authorize your request.", http.StatusUnauthorized)
+		http.Error(w, "Invalid API key. Set the `Authorization` header to authorize your request.", http.StatusUnauthorized)
 		authd = false
 		return
 	}
